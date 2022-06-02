@@ -1,0 +1,8 @@
+//
+// Created by dh on 2022/4/27.
+//
+
+#ifndef MYTINYRENDER_PARAM_HPP
+#define MYTINYRENDER_PARAM_HPP
+
+#endif //MYTINYRENDER_PARAM_HPP
