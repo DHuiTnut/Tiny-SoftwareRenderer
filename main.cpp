@@ -82,7 +82,6 @@ int main(){
         }
         Triangle triangle(verWorld, verScreen, normals, texCoords);
         rasterize_triangle(triangle, frame, z_buffer, model, light, depthBuffer, lightTrans);
-//        cout << i << " secuess" << endl;
     }
 //    frame.flip_vertically();
     frame.write_tga_file("framebuffer.tga");

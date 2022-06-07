@@ -1,0 +1,3 @@
+C:/Users/dh/Desktop/Tiny-SoftwareRenderring/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+C:/Users/dh/Desktop/Tiny-SoftwareRenderring/cmake-build-debug/CMakeFiles/MyTinyRender.dir
+C:/Users/dh/Desktop/Tiny-SoftwareRenderring/cmake-build-debug/CMakeFiles/edit_cache.dir
