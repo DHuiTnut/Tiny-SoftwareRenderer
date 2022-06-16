@@ -8,7 +8,7 @@
 - Blinn-Phong反射模型
 - 软阴影
 
-注：参考了https://github.com/shixuezhiyi/MyTinyRender中的数学库（MyMath.h），以及https://github.com/ssloy/tinyrenderer/wiki的TGA读写文件(Tgaimge.cpp Tgaimage.h)。
+注：参考了https://github.com/shixuezhiyi/MyTinyRender 中的数学库（MyMath.h),以及https://github.com/ssloy/tinyrenderer/wiki 的TGA读写文件(Tgaimge.cpp Tgaimage.h)。
 
 输出效果图：
 
