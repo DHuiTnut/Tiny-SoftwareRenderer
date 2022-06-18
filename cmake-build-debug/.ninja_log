@@ -1,0 +1,7 @@
+# ninja log v5
+2	850	6771750281967891	CMakeFiles/MyTinyRender.dir/main.cpp.obj	1bf055f27cfd1c43
+0	584	6771711639788328	CMakeFiles/MyTinyRender.dir/tgaimage.cpp.obj	c4ab5a7c199cf355
+863	1176	6771750285199243	MyTinyRender.exe	981ee10aaaa4abf
+2	359	6771751662769602	build.ninja	3225044b972e0cb7
+2	781	6771859237684104	CMakeFiles/MyTinyRender.dir/main.cpp.obj	1bf055f27cfd1c43
+795	1006	6771859239908842	MyTinyRender.exe	981ee10aaaa4abf

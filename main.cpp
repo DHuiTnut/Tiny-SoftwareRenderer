@@ -5,7 +5,7 @@
 #include <cfloat>
 #include "model.hpp"
 #include "tgaimage.h"
-#include "mymath.hpp"
+#include "MyMath.hpp"
 #include "rasterizater.hpp"
 #include "transform.hpp"
 #include "triangle.hpp"
@@ -28,8 +28,8 @@ const float    aspect = 1;
 int main(){
     TGAImage frame(width, height, TGAImage::RGB);
     TGAImage depthImage(width, height, TGAImage::RGB);
-    vector<float> z_buffer(height * width, -FLT_MAX);
-    vector<float> depthBuffer(height * width, -FLT_MAX);
+    vector<float> zBuffer(height * width, -FLT_MAX);
+    vector<float> shadowMap(height * width, -FLT_MAX);
     Light light(lightPos, lightIndensity);
 
     Model model("diablo3_pose");
@@ -52,11 +52,11 @@ int main(){
         vector<Vec3f> vertices = model.getVertexs(i);
         vector<Vec4f> verScreen;
         for (auto &v: vertices) {
-            Vec4f ver_homo = {v[0], v[1], v[2], 1.};
-            ver_homo = lightTrans * ver_homo;
-            verScreen.push_back({ver_homo[0] / ver_homo[3], ver_homo[1] / ver_homo[3], ver_homo[2] / ver_homo[3], 1.});
+            Vec4f verHomo = {v[0], v[1], v[2], 1.};
+            verHomo = lightTrans * verHomo;
+            verScreen.push_back({verHomo[0] / verHomo[3], verHomo[1] / verHomo[3], verHomo[2] / verHomo[3], 1.});
         }
-        rasterize(verScreen, depthImage, depthBuffer, TGAColor(255., 255., 255.));
+        rasterize(verScreen, depthImage, shadowMap, TGAColor(255., 255., 255.));
     }
     depthImage.write_tga_file("depthImage.tga");
 
@@ -67,21 +67,21 @@ int main(){
         vector<Vec3f> verWorld;
         vector<Vec4f> verScreen; // 保留齐次坐标中的w的值，用于三维空间计算重心坐标，再进行插值。
         for(auto& n : normals){
-            Vec4f n_homo = {n[0], n[1], n[2], 0.};
-//            n_homo = viewTrans * modelTrans * n_homo;
-            n_homo = modelTrans.getInvert().getTranspose() * n_homo;
-            n = {n_homo[0], n_homo[1], n_homo[2]};
+            Vec4f nHomo = {n[0], n[1], n[2], 0.};
+//            nHomo = viewTrans * modelTrans * nHomo;
+            nHomo = modelTrans.getInvert().getTranspose() * nHomo;
+            n = {nHomo[0], nHomo[1], nHomo[2]};
             n.normalize();
         }
         for(auto& v : vertices){
-            Vec4f ver_homo = {v[0], v[1], v[2], 1.};
-            ver_homo =  modelTrans * ver_homo;
-            verWorld.push_back({ver_homo[0] / ver_homo[3], ver_homo[1] / ver_homo[3], ver_homo[2] / ver_homo[3]});
-            ver_homo = vpv * ver_homo;
-            verScreen.push_back({ver_homo[0] / ver_homo[3], ver_homo[1] / ver_homo[3], ver_homo[2] / ver_homo[3], ver_homo[3]});
+            Vec4f verHomo = {v[0], v[1], v[2], 1.};
+            verHomo = modelTrans * verHomo;
+            verWorld.push_back({verHomo[0] / verHomo[3], verHomo[1] / verHomo[3], verHomo[2] / verHomo[3]});
+            verHomo = vpv * verHomo;
+            verScreen.push_back({verHomo[0] / verHomo[3], verHomo[1] / verHomo[3], verHomo[2] / verHomo[3], verHomo[3]});
         }
         Triangle triangle(verWorld, verScreen, normals, texCoords);
-        rasterize_triangle(triangle, frame, z_buffer, model, light, depthBuffer, lightTrans);
+        rasterize_triangle(triangle, frame, zBuffer, model, light, shadowMap, lightTrans);
     }
 //    frame.flip_vertically();
     frame.write_tga_file("framebuffer.tga");

@@ -5,7 +5,7 @@
 #ifndef MYTINYRENDER_TRIANGLE_HPP
 #define MYTINYRENDER_TRIANGLE_HPP
 
-#include "mymath.hpp"
+#include "MyMath.hpp"
 
 class Triangle{
     vector<Vec3f> normal;

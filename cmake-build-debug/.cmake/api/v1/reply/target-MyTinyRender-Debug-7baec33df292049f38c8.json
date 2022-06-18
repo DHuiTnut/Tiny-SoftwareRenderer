@@ -130,7 +130,7 @@
 		},
 		{
 			"backtrace" : 1,
-			"path" : "mymath.hpp",
+			"path" : "MyMath.hpp",
 			"sourceGroupIndex" : 1
 		},
 		{

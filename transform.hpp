@@ -5,7 +5,7 @@
 #ifndef MYTINYRENDER_TRANSFORM_HPP
 #define MYTINYRENDER_TRANSFORM_HPP
 
-#include "mymath.hpp"
+#include "MyMath.hpp"
 #define MY_PI 3.1415926
 
 Mat4f getModelMatrix(){

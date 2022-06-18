@@ -7,7 +7,7 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include "mymath.hpp"
+#include "MyMath.hpp"
 #include "tgaimage.h"
 
 struct Light{
@@ -20,7 +20,7 @@ struct Light{
 class Model {
 private:
     vector<Vec3f> vertexs;
-    vector<Vec2f> tex_coords;
+    vector<Vec2f> texCoords;
     vector<Vec3f> normals;
     vector<Vec3i> ver_idxs;
     vector<Vec3i> tex_idxs;
@@ -79,7 +79,7 @@ Model::Model(string filename) {
            iss >> trash;
            Vec2f tex_coord;
            iss >> tex_coord[0] >> tex_coord[1];
-           tex_coords.push_back(tex_coord);
+           texCoords.push_back(tex_coord);
        }
        else if(line.compare(0, 3, "vn ") == 0){
            iss >> trash;
@@ -91,16 +91,16 @@ Model::Model(string filename) {
        else if(line.compare(0, 2, "f ") == 0) {
             iss >> trash;
             char c_trash;
-            Vec3i v_idx, vt_idx, vn_idx;
+            Vec3i vIdx, vt_idx, vn_idx;
             for(int i = 0; i < 3; i++){
-                iss >> v_idx[i] >> c_trash;
+                iss >> vIdx[i] >> c_trash;
                 iss >> vt_idx[i] >> c_trash;
                 iss >> vn_idx[i];
-                v_idx[i]--;
+                vIdx[i]--;
                 vt_idx[i]--;
                 vn_idx[i]--;
             }
-            ver_idxs.push_back(v_idx);
+            ver_idxs.push_back(vIdx);
             tex_idxs.push_back(vt_idx);
             norm_idxs.push_back(vn_idx);
        }
@@ -111,7 +111,7 @@ Model::Model(string filename) {
     cout << "Triangle num: " << ver_idxs.size() << endl;
     cout << "Position nums: " << vertexs.size() << endl;
     cout << "normal nums: " << normals.size() << endl;
-    cout << "texCoord num: " << tex_coords.size() << endl;
+    cout << "texCoord num: " << texCoords.size() << endl;
     file.close();
 }
 
@@ -122,7 +122,7 @@ vector<Vec3f> Model::getVertexs(int index) {
 
 vector<Vec2f> Model::getTexCoords(int index) {
     Vec3i idx = tex_idxs[index];
-    return {tex_coords[idx[0]], tex_coords[idx[1]], tex_coords[idx[2]]};
+    return {texCoords[idx[0]], texCoords[idx[1]], texCoords[idx[2]]};
 }
 
 vector<Vec3f> Model::getNormals(int index) {
@@ -136,19 +136,7 @@ Vec3f Model::getTexNormal(float u, float v, const Mat3f& TBN) {
     v = v * (diffuseMap.height()-1);
     TGAColor color = normalMap.get(floor(u),floor(v));
     Vec3f normal = {color[2], color[1], color[0]};
-    normal = normal * 2. + (-1.);
-    normal = TBN * normal;
-    normal.normalize();
-    return normal;
-}
-
-Vec3d Model::getTexNormal(float u, float v, const Mat3d& TBN) {
-    v = 1 - v;
-    u = u * (diffuseMap.width());
-    v = v * (diffuseMap.height());
-    TGAColor color = normalMap.get(floor(u),floor(v));
-    Vec3d normal = {color[2], color[1], color[0]};
-    normal = normal * 2. + (-1.);
+    normal = normal * (1./255) *2. + (-1.);
     normal = TBN * normal;
     normal.normalize();
     return normal;

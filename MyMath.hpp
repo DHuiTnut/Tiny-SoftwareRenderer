@@ -12,6 +12,8 @@
 
 using namespace std;
 
+// 所有的向量都是列向量
+
 template <typename T, int DIM>
 class vec
 {
